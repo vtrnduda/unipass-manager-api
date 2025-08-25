@@ -15,10 +15,8 @@ public class Student {
     private Boolean statusUsuario;
     private String telefone;
 
-    // Construtor vazio (obrigatório para JPA)
     public Student() {}
 
-    // Construtor com parâmetros
     public Student(String nomeCompleto, String email, String matriculaUniPass, Boolean statusUsuario, String telefone) {
         this.nomeCompleto = nomeCompleto;
         this.email = email;
@@ -27,7 +25,6 @@ public class Student {
         this.telefone = telefone;
     }
 
-    // Getters e Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
