@@ -3,6 +3,8 @@ package com.unipass.unipass_manager_api.controller;
 import com.unipass.unipass_manager_api.model.Student;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
@@ -19,4 +21,5 @@ public class StudentController {
 
         return student;
     }
+
 }
