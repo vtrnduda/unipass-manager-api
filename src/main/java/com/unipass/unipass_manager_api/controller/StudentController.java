@@ -20,18 +20,10 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public Student getStudentById(@PathVariable Long id) {
-        Student student = new Student();
-        student.setId(id);
-        student.setNomeCompleto("João Silva");
-        student.setEmail("joao@email.com");
-        student.setMatriculaUniPass("20250001");
-        student.setStatusUsuario(true);
-        student.setTelefone("(83) 9999-9999");
-
-        return student;
+        return studentService.findById(id);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Student> listStudents(){
         return studentService.findAll();
     }
@@ -41,8 +33,9 @@ public class StudentController {
         return studentService.create(student);
     }
 
+    @DeleteMapping("/{id}")
     public boolean deleteById(@PathVariable Long id){
-        return studentService.delete(id);
+        return studentService.remove(id);
     }
 
 
