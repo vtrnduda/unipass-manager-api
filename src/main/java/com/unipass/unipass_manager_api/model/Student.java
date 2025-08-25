@@ -8,11 +8,15 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column
     private String nomeCompleto;
+    @Column
     private String email;
+    @Column
     private String matriculaUniPass;
+    @Column
     private Boolean statusUsuario;
+    @Column
     private String telefone;
 
     public Student() {}
@@ -42,4 +46,6 @@ public class Student {
 
     public String getTelefone() { return telefone; }
     public void setTelefone(String telefone) { this.telefone = telefone; }
+
+
 }
