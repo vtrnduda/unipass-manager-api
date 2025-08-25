@@ -1,10 +1,11 @@
 package com.unipass.unipass_manager_api.services;
 
-import com.unipass.unipass_manager_api.Repository.StudentRepository;
+import com.unipass.unipass_manager_api.repository.StudentRepository;
 import com.unipass.unipass_manager_api.model.Student;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -18,20 +19,19 @@ public class StudentService {
         return this.studentRepository.findAll();
     }
 
-    public Student findById(Long id) {
-        return this.studentRepository.findById(id).orElse(null);
+    public Optional<Student> findById(Long id) {
+        return this.studentRepository.findById(id);
     }
 
-    public boolean create(Student student) {
-        return this.studentRepository.save(student) != null?true:false;
-
+    public Student save(Student student) {
+        return studentRepository.save(student);
     }
 
     public boolean remove(Long id) {
-        Student student = this.findById(id);
+        Optional<Student> student = this.findById(id);
 
-        if  (student != null) {
-            this.studentRepository.delete(student);
+        if  (student.isPresent()) {
+            this.studentRepository.deleteById(id);
             return true;
         }
         return false;
