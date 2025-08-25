@@ -27,8 +27,13 @@ public class StudentService {
 
     }
 
-    public boolean delete(Student student) {
-        this.studentRepository.delete(student);
-        return true;
+    public boolean remove(Long id) {
+        Student student = this.findById(id);
+
+        if  (student != null) {
+            this.studentRepository.delete(student);
+            return true;
+        }
+        return false;
     }
 }
