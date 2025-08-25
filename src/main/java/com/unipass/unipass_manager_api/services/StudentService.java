@@ -2,9 +2,11 @@ package com.unipass.unipass_manager_api.services;
 
 import com.unipass.unipass_manager_api.Repository.StudentRepository;
 import com.unipass.unipass_manager_api.model.Student;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class StudentService {
     private final StudentRepository studentRepository;
 
