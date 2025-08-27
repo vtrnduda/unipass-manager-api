@@ -1,5 +1,7 @@
 package com.unipass.unipass_manager_api.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public enum StatusCadastro {
     PENDENTE("Pendente"),
     APROVADO("Aprovado"),
@@ -14,5 +16,15 @@ public enum StatusCadastro {
 
     public String getValor() {
         return valor;
+    }
+
+    @JsonCreator
+    public static StatusCadastro fromString(String text) {
+        for (StatusCadastro status : StatusCadastro.values()) {
+            if (status.name().equalsIgnoreCase(text)) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Nenhum status encontrado para o valor: " + text);
     }
 }
