@@ -8,16 +8,30 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
     private String nomeCompleto;
-    @Column
+
+    @Column(nullable = true)
     private String email;
-    @Column
+
     private String matriculaUniPass;
-    @Column
     private Boolean statusUsuario;
-    @Column
+
+    @Column(nullable = true)
     private String telefone;
+
+    private String cpf;
+    private String rg;
+    private String dataNascimento;
+    private String universidade;
+    private String campus;
+    private String turno;
+    private String previsaoConclusao;
+    private String declaracaoVinculoUrl;
+    private String comprovanteResidenciaUrl;
+
+    @Enumerated(EnumType.STRING)
+    private StatusCadastro statusCadastro = StatusCadastro.PENDENTE;
 
     public Student() {}
 

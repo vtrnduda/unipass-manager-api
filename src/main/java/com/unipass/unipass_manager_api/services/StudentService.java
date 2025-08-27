@@ -2,6 +2,7 @@ package com.unipass.unipass_manager_api.services;
 
 import com.unipass.unipass_manager_api.repository.StudentRepository;
 import com.unipass.unipass_manager_api.model.Student;
+import com.unipass.unipass_manager_api.model.StatusCadastro;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,10 @@ public class StudentService {
 
     public Optional<Student> findById(Long id) {
         return this.studentRepository.findById(id);
+    }
+
+    public List<Student> findByStatusCadastro(StatusCadastro status) {
+        return studentRepository.findByStatusCadastro(status);
     }
 
     public Student save(Student student) {

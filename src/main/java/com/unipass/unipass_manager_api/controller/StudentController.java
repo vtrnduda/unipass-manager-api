@@ -1,6 +1,7 @@
 package com.unipass.unipass_manager_api.controller;
 
 import com.unipass.unipass_manager_api.model.Student;
+import com.unipass.unipass_manager_api.model.StatusCadastro;
 import com.unipass.unipass_manager_api.services.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
@@ -28,9 +30,18 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Student>> getAllStudents() {
-        List<Student> students = studentService.findAll();
-        return ResponseEntity.ok(students);
+    public ResponseEntity<List<Student>> getAllStudents(
+            @RequestParam(required = false) String statusCadastro) {
+
+        if (statusCadastro != null) {
+            StatusCadastro status = StatusCadastro.valueOf(statusCadastro.toUpperCase());
+            System.out.println("Status convertido: " + status);
+            System.out.println("Encontrados: " + studentService.findByStatusCadastro(status).size() + " estudantes");
+
+            return ResponseEntity.ok(studentService.findByStatusCadastro(status));
+        }
+
+        return ResponseEntity.ok(studentService.findAll());
     }
 
     @PostMapping
