@@ -3,6 +3,7 @@ package com.unipass.unipass_manager_api.controller;
 import com.unipass.unipass_manager_api.model.Student;
 import com.unipass.unipass_manager_api.model.StatusCadastro;
 import com.unipass.unipass_manager_api.services.StudentService;
+import com.unipass.unipass_manager_api.dto.StudentListDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +31,24 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Student>> getAllStudents(
+    public ResponseEntity<List<StudentListDTO>> getAllStudents(
             @RequestParam(required = false) String statusCadastro) {
+
+        List<Student> students;
 
         if (statusCadastro != null) {
             StatusCadastro status = StatusCadastro.valueOf(statusCadastro.toUpperCase());
-            System.out.println("Status convertido: " + status);
-            System.out.println("Encontrados: " + studentService.findByStatusCadastro(status).size() + " estudantes");
-
-            return ResponseEntity.ok(studentService.findByStatusCadastro(status));
+            students = studentService.findByStatusCadastro(status);
+        } else {
+            students = studentService.findAll();
         }
 
-        return ResponseEntity.ok(studentService.findAll());
+        // Converte para DTO
+        List<StudentListDTO> dtoList = students.stream()
+                .map(StudentListDTO::new)
+                .toList();
+
+        return ResponseEntity.ok(dtoList);
     }
 
     @PostMapping
