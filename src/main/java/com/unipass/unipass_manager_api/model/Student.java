@@ -15,7 +15,6 @@ public class Student {
     private String email;
 
     private String matriculaUniPass;
-    private Boolean statusUsuario;
 
     @Column(nullable = true)
     private String telefone;
@@ -66,9 +65,6 @@ public class Student {
 
     public String getMatriculaUniPass() { return matriculaUniPass; }
     public void setMatriculaUniPass(String matriculaUniPass) { this.matriculaUniPass = matriculaUniPass; }
-
-    public Boolean getStatusUsuario() { return statusUsuario; }
-    public void setStatusUsuario(Boolean statusUsuario) { this.statusUsuario = statusUsuario; }
 
     public String getTelefone() { return telefone; }
     public void setTelefone(String telefone) { this.telefone = telefone; }

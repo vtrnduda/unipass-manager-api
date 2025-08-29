@@ -1,5 +1,6 @@
 package com.unipass.unipass_manager_api.controller;
 
+import com.unipass.unipass_manager_api.dto.StudentUpdateRequest;
 import com.unipass.unipass_manager_api.model.Student;
 import com.unipass.unipass_manager_api.model.StatusCadastro;
 import com.unipass.unipass_manager_api.services.StudentService;
@@ -9,9 +10,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import java.util.Map;
+
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(
+        origins = "http://localhost:4200",
+        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PATCH}
+)
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
@@ -55,6 +63,14 @@ public class StudentController {
     public boolean createStudent(@RequestBody Student student){
         Student saved = studentService.save(student);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved).hasBody();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Student> atualizarStatus(@PathVariable Long id, @RequestBody Map<String, String> updates) {
+        String novoStatus = updates.get("statusCadastro");
+        StatusCadastro status = StatusCadastro.valueOf(novoStatus);
+        Student updated = studentService.updateStatusCadastro(id, status);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
