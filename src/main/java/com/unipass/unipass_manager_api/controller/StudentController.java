@@ -1,5 +1,6 @@
 package com.unipass.unipass_manager_api.controller;
 
+import com.unipass.unipass_manager_api.dto.StudentUpdateRequest;
 import com.unipass.unipass_manager_api.model.Student;
 import com.unipass.unipass_manager_api.model.StatusCadastro;
 import com.unipass.unipass_manager_api.services.StudentService;
@@ -56,6 +57,12 @@ public class StudentController {
         Student saved = studentService.save(student);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved).hasBody();
     }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Student> atualizarStatus(@PathVariable Long id, @RequestBody StudentUpdateRequest request) {
+        Student StudentUpToDate = studentService.updateStatusCadastro(id, request.getStatus());
+        return ResponseEntity.ok(StudentUpToDate);
+    };
 
     @DeleteMapping("/{id}")
     public boolean deleteById(@PathVariable Long id){
