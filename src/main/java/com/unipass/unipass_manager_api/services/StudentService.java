@@ -3,12 +3,14 @@ package com.unipass.unipass_manager_api.services;
 import com.unipass.unipass_manager_api.repository.StudentRepository;
 import com.unipass.unipass_manager_api.model.Student;
 import com.unipass.unipass_manager_api.model.StatusCadastro;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class StudentService {
     private final StudentRepository studentRepository;
 
@@ -40,5 +42,11 @@ public class StudentService {
             return true;
         }
         return false;
+    }
+
+    public Student updateStatusCadastro (Long id, StatusCadastro newStatus){
+        Student student = this.findById(id).get();
+        student.setStatusCadastro(newStatus);
+        return this.studentRepository.save(student);
     }
 }
