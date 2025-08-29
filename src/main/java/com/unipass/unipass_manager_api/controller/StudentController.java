@@ -1,22 +1,65 @@
 package com.unipass.unipass_manager_api.controller;
 
 import com.unipass.unipass_manager_api.model.Student;
+import com.unipass.unipass_manager_api.model.StatusCadastro;
+import com.unipass.unipass_manager_api.services.StudentService;
+import com.unipass.unipass_manager_api.dto.StudentListDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
 
-    @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable Long id) {
-        Student student = new Student();
-        student.setId(id);
-        student.setNomeCompleto("João Silva");
-        student.setEmail("joao@email.com");
-        student.setMatriculaUniPass("20250001");
-        student.setStatusUsuario(true);
-        student.setTelefone("(83) 9999-9999");
+    private final StudentService studentService;
 
-        return student;
+    @Autowired
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
+        return studentService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<StudentListDTO>> getAllStudents(
+            @RequestParam(required = false) String statusCadastro) {
+
+        List<Student> students;
+
+        if (statusCadastro != null) {
+            StatusCadastro status = StatusCadastro.valueOf(statusCadastro.toUpperCase());
+            students = studentService.findByStatusCadastro(status);
+        } else {
+            students = studentService.findAll();
+        }
+
+        // Converte para DTO
+        List<StudentListDTO> dtoList = students.stream()
+                .map(StudentListDTO::new)
+                .toList();
+
+        return ResponseEntity.ok(dtoList);
+    }
+
+    @PostMapping
+    public boolean createStudent(@RequestBody Student student){
+        Student saved = studentService.save(student);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved).hasBody();
+    }
+
+    @DeleteMapping("/{id}")
+    public boolean deleteById(@PathVariable Long id){
+        return studentService.remove(id);
+    }
+
 }
