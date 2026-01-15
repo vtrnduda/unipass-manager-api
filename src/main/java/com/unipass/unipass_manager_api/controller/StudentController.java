@@ -16,10 +16,7 @@ import java.util.Map;
 
 import java.util.List;
 
-@CrossOrigin(
-        origins = "http://localhost:4200",
-        methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PATCH}
-)
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
