@@ -10,6 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import java.util.Map;
+
 import java.util.List;
 
 //@CrossOrigin(origins = "http://localhost:4200")
@@ -58,11 +62,13 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saved).hasBody();
     }
 
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<Student> atualizarStatus(@PathVariable Long id, @RequestBody StudentUpdateRequest request) {
-        Student StudentUpToDate = studentService.updateStatusCadastro(id, request.getStatus());
-        return ResponseEntity.ok(StudentUpToDate);
-    };
+    @PatchMapping("/{id}")
+    public ResponseEntity<Student> atualizarStatus(@PathVariable Long id, @RequestBody Map<String, String> updates) {
+        String novoStatus = updates.get("statusCadastro");
+        StatusCadastro status = StatusCadastro.valueOf(novoStatus);
+        Student updated = studentService.updateStatusCadastro(id, status);
+        return ResponseEntity.ok(updated);
+    }
 
     @DeleteMapping("/{id}")
     public boolean deleteById(@PathVariable Long id){
